@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İstanbul Tek Tık</title>
+    <style>
+        body { font-family: system-ui, sans-serif; text-align: center; padding: 20px; background-color: #faf8f5; }
+        button { padding: 12px 24px; font-size: 16px; margin: 10px; border: none; border-radius: 8px; background: #007bff; color: white; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 20px; }
+        a { color: #007bff; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>İstanbul Tek Tık v3</h1>
+        <p>Dil / Language:</p>
+        <button onclick="setLanguage('TR')">Türkçe (TR)</button>
+        <button onclick="setLanguage('EN')">English (EN)</button>
+        <p id="langStatus" style="font-weight: bold; margin-top: 15px; color: #555;">Mevcut Dil: Yükleniyor...</p>
+        <br>
+        <a href="privacy.html">Gizlilik Politikası / Privacy Policy</a>
+    </div>
+
+    <script>
+        function setLanguage(lang) {
+            if(window.AndroidBridge) {
+                AndroidBridge.setLang(lang);
+                updateLang();
+            } else {
+                localStorage.setItem('user_lang', lang);
+                updateLang();
+            }
+        }
+        function updateLang() {
+            let currentLang = "TR";
+            if(window.AndroidBridge) {
+                currentLang = AndroidBridge.getLang();
+            } else {
+                currentLang = localStorage.getItem('user_lang') || "TR";
+            }
+            document.getElementById('langStatus').innerText = "Mevcut Dil: " + currentLang;
+        }
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

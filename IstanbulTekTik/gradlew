@@ -1,0 +1,9 @@
+#!/bin/sh
+# Minimal gradlew - delegates to gradle if wrapper jar missing, else uses jar
+DIR=`dirname "$0"`
+JAR="$DIR/gradle/wrapper/gradle-wrapper.jar"
+if [ -f "$JAR" ]; then
+  exec java -classpath "$JAR" org.gradle.wrapper.GradleWrapperMain "$@"
+else
+  exec gradle "$@"
+fi
